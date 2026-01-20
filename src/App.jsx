@@ -6,12 +6,16 @@ import Projects from './sections/Projects';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
 import './App.css';
-import MouseFollower from './components/MouseFollower';
+import MagicCursor from './components/MagicCursor';
+import GoldenSnitch from './components/GoldenSnitch';
+import MagicalBackground from './components/MagicalBackground';
 
 function App() {
   return (
     <div className="app-container">
-      <MouseFollower />
+      <MagicalBackground />
+      <MagicCursor />
+      <GoldenSnitch />
       <Navbar />
       <main>
         <Hero />

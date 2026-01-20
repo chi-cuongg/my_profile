@@ -23,19 +23,24 @@ const Navbar = () => {
     };
 
     const navLinks = [
-        { name: 'Home', href: '#hero' },
-        { name: 'About', href: '#about' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Contact', href: '#contact' },
+        { name: 'Great Hall', href: '#hero' },
+        { name: 'Common Room', href: '#about' }, // Inferred for 'About'
+        { name: 'Library', href: '#skills' },
+        { name: 'Room of Requirement', href: '#projects' },
+        { name: 'Owl Post', href: '#contact' },
     ];
 
     return (
         <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
             <div className={styles.container}>
                 <a href="#hero" className={styles.logo}>
-                    Dev<span className={styles.logoAccent}>Profile</span>
+                    <span>⚡</span> Dev<span className={styles.logoAccent}>Potter</span>
                 </a>
+
+                {/* Secret Spell Reveal */}
+                <div className={styles.spellText}>
+                    I solemnly swear that I am up to no good...
+                </div>
 
                 <div className={`${styles.navLinks} ${isOpen ? styles.active : ''}`}>
                     {navLinks.map((link) => (

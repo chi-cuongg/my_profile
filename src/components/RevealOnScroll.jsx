@@ -18,8 +18,8 @@ const RevealOnScroll = ({ children, width = "fit-content" }) => {
         <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
             <motion.div
                 variants={{
-                    hidden: { opacity: 0, y: 75 },
-                    visible: { opacity: 1, y: 0 },
+                    hidden: { opacity: 0, y: 50, scale: 0.95, filter: "blur(10px)" },
+                    visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
                 }}
                 initial="hidden"
                 animate={mainControls}
