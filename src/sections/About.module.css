@@ -7,21 +7,107 @@
     padding-top: 100px;
 }
 
+/* Parchment Paper Theme - Marauder's Map Style */
+.paper {
+    background-color: #dcc696;
+    /* Lighter parchment base for contrast */
+    background-image:
+        /* Complex Folds */
+        linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.05) 10%, rgba(0, 0, 0, 0.02) 15%, transparent 20%),
+        linear-gradient(90deg, transparent 48%, rgba(0, 0, 0, 0.08) 50%, transparent 52%),
+        linear-gradient(90deg, transparent 80%, rgba(0, 0, 0, 0.02) 85%, rgba(0, 0, 0, 0.05) 90%, transparent 100%),
+        /* Burnt Vignette */
+        radial-gradient(circle at center, transparent 40%, rgba(60, 30, 10, 0.3) 80%, rgba(40, 20, 5, 0.8) 100%),
+        /* Grunge Texture */
+        url("https://www.transparenttextures.com/patterns/aged-paper.png");
+    /* Layers: Folds (gradient), Lines (gradient), Vignette (radial), Texture */
+    background-blend-mode: multiply;
+    background-size: 100% 100%;
+    padding: 3rem;
+    border-radius: 0;
+    /* Full screen needs no radius */
+    box-shadow: none;
+    /* Full screen usually doesn't show outer shadow */
+    position: relative;
+    width: 100vw;
+    /* Force full viewport width */
+    max-width: none;
+    min-height: 100vh;
+    /* Full viewport height */
+    margin: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    /* Classic breakout of parent container trick if needed, but we removed container in JSX so width: 100% is fine, but 100vw is safer */
+
+    color: #4a3c31;
+    /* Sepia Ink */
+    overflow: hidden;
+    /* For masking effects */
+    --x: -1000px;
+    /* Default off-screen */
+    --y: -1000px;
+}
+
+/* Base "Faint" Map Layer (Always visible but barely) */
+.paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    /* Very faint always visible */
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 50 50 10 90' stroke='%233a2a1a' fill='none'/%3E%3Cpath d='M80 20 Q 120 10 150 50' stroke='%233a2a1a' fill='none'/%3E%3Cpath d='M20 150 L 180 150' stroke='%233a2a1a' stroke-dasharray='5,5' fill='none'/%3E%3Ccircle cx='100' cy='100' r='80' stroke='%233a2a1a' fill='none' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 400px 400px;
+}
+
+/* Magic "Reveal" Layer (Only visible under spotlight) */
+.paper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    /* Above text? No, below text but above BG. Actually text is z-index 0. Let's make text z-index 2. */
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 50 50 10 90' stroke='%235a3a2a' stroke-width='2' fill='none'/%3E%3Cpath d='M80 20 Q 120 10 150 50' stroke='%235a3a2a' stroke-width='2' fill='none'/%3E%3Crect x='40' y='60' width='30' height='30' stroke='%235a3a2a' fill='none'/%3E%3Cpath d='M20 150 L 180 150' stroke='%235a3a2a' stroke-width='2' stroke-dasharray='10,5' fill='none'/%3E%3Ccircle cx='100' cy='100' r='80' stroke='%235a3a2a' stroke-width='1' fill='none'/%3E%3Ctext x='50' y='120' font-family='serif' font-size='12' fill='%235a3a2a'%3EHogwarts%3C/text%3E%3C/svg%3E");
+    background-size: 400px 400px;
+    opacity: 0.8;
+
+    /* THE MAGIC MASK */
+    -webkit-mask-image: radial-gradient(circle 150px at var(--x) var(--y), black 20%, transparent 100%);
+    mask-image: radial-gradient(circle 150px at var(--x) var(--y), black 20%, transparent 100%);
+}
+
 .content {
     display: grid;
     grid-template-columns: 3fr 2fr;
     gap: 50px;
     align-items: center;
+    margin-top: 2rem;
 }
 
 .text {
-    color: var(--color-text-secondary);
-    font-size: 1.1rem;
-    line-height: 1.6;
+    color: #2a1a0a;
+    /* Darkest ink */
+    font-family: 'Crimson Text', serif;
+    font-size: 1.35rem;
+    /* Increased size/weight for legibility on dark bg */
+    font-weight: 600;
+    /* Semi-bold to stand out */
+    line-height: 1.7;
+    text-shadow: 0 0 1px rgba(255, 230, 200, 0.2);
+    /* Subtle highlight for depth */
 }
 
 .text p {
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
 }
 
 .skillsList {
@@ -38,87 +124,87 @@
     position: relative;
     margin-bottom: 10px;
     padding-left: 20px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
+    font-family: 'Cinzel', serif;
+    /* Headers font for skills looks cool */
+    font-weight: 700;
+    font-size: 1rem;
+    color: #3a2a1a;
+    /* Dark brown */
 }
 
 .skillsList li::before {
-    content: '▹';
+    content: '⚡';
+    /* Wand/Bolt bullet */
     position: absolute;
     left: 0;
-    color: var(--color-accent);
+    font-size: 0.8rem;
+    color: #8b0000;
+    /* Gryffindor Red for bullets */
 }
 
 .imageWrapper {
     position: relative;
     max-width: 300px;
     margin: 0 auto;
+    filter: sepia(30%);
+    /* Vintage photo look */
+    transition: filter 0.3s ease;
+}
+
+.imageWrapper:hover {
+    filter: sepia(0%);
 }
 
 .imgContainer {
     width: 300px;
     height: 300px;
-    /* Square container for the image */
     position: relative;
     z-index: 1;
     transition: transform 0.3s ease;
-    border-radius: 4px;
-    /* Optional: Rounded corners for container */
+    border-radius: 2px;
     overflow: hidden;
-    /* Ensures image stays within bounds if rounded */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 5px solid #fff;
+    /* Photo border */
 }
 
 .profileImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* This makes sure the image covers the square area nicely */
     background-color: #334;
     display: block;
 }
 
-.imgContainer::after {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--color-accent);
-    border-radius: 4px;
-    top: 20px;
-    left: 20px;
-    z-index: -1;
-    transition: all 0.3s ease;
-    pointer-events: none;
-    /* Let clicks pass through if needed */
-}
-
-/* We need to position the ::after element relative to the wrapper or handle it differently because it was on the placeholder div before.
-   Actually, applying ::after to an img container works better than on the img tag itself. 
-*/
+/* Wanted Poster Style Frame elements could go here if requested, simpler for now */
 
 .imageWrapper:hover .imgContainer {
-    transform: translate(-5px, -5px);
-}
-
-.imageWrapper:hover .imgContainer::after {
-    transform: translate(5px, 5px);
+    transform: rotate(2deg) scale(1.02);
+    /* Slight tilt like a moving photo */
 }
 
 @media (max-width: 768px) {
+    .paper {
+        padding: 1.5rem;
+    }
+
     .content {
+        display: flex;
+        flex-direction: column-reverse;
+        /* Text first, image top? Or standard? Let's keep Image top usually or bottom. CSS Grid handles mobile automatically if we change logic */
         display: block;
+        /* Fallback */
     }
 
     .imageWrapper {
-        margin-top: 50px;
-        width: 70%;
+        margin-top: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
-    .imgPlaceholder {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1/1;
+    .imgContainer {
+        width: 250px;
+        height: 250px;
     }
 }

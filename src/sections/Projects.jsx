@@ -36,7 +36,7 @@ const Projects = () => {
 
                 <div className={styles.projectGrid}>
                     {projects.map((project, index) => (
-                        <RevealOnScroll key={index}>
+                        <RevealOnScroll key={index} fullHeight={true}>
                             <div className={styles.card}>
                                 <div className={styles.cardHeader}>
                                     <div className={styles.folderIcon}>

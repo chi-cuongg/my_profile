@@ -10,7 +10,6 @@ main {
 
 /* Section common styles */
 section {
-  padding: var(--spacer-xl) 0;
   min-height: 100vh;
   /* Make sections full height for impact */
   display: flex;

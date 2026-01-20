@@ -3,17 +3,31 @@ import styles from './About.module.css';
 import profileImg from '../assets/profile.jpg';
 import RevealOnScroll from '../components/RevealOnScroll';
 
+import RibbonTitle from '../components/RibbonTitle';
+import MarauderFootprints from '../components/MarauderFootprints';
+
 const About = () => {
     const skills = [
         "JavaScript (ES6+)", "React", "Node.js", "TypeScript",
         "HTML5 & CSS3", "Git", "SQL", "Python"
     ];
 
+    const handleMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        e.currentTarget.style.setProperty('--x', `${x}px`);
+        e.currentTarget.style.setProperty('--y', `${y}px`);
+    };
+
     return (
         <section id="about" className={styles.about}>
-            <div className={`container ${styles.container}`}>
+            {/* Removed global container class to allow full width parchment */}
+            <div className={styles.paper} onMouseMove={handleMouseMove}>
+                <MarauderFootprints />
+
                 <RevealOnScroll>
-                    <h2 className="section-title">About Me</h2>
+                    <RibbonTitle text="About Me" />
                 </RevealOnScroll>
 
                 <div className={styles.content}>
@@ -28,7 +42,7 @@ const About = () => {
                             <p>
                                 I'm excited about the future of technology and look forward to growing as a developer through meaningful projects and hands-on experience.
                             </p>
-                            <p>Here are a few technologies I've been working with recently:</p>
+                            <p style={{ fontWeight: 'bold', fontStyle: 'italic', marginTop: '1rem' }}>Here are a few technologies I've been working with recently:</p>
                             <ul className={styles.skillsList}>
                                 {skills.map((skill, index) => (
                                     <li key={index}>{skill}</li>
