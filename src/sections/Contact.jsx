@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './Contact.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
     const [formStatus, setFormStatus] = useState('idle'); // idle, rolling, grabbed, flying, sent
+    const form = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setFormStatus('rolling');
 
-        // Sequence:
-        // 1. Roll into Scroll (0.8s)
-        // 2. Owl Lands on Scroll (0.5s)
-        // 3. Fly away (1.5s)
+        // Start the Animation Sequence
+        // 1. Roll into Scroll (0.8s) -> 2. Owl Lands (0.5s) -> 3. Fly (1.5s)
 
+        // Send Email in parallel
+        emailjs.sendForm(
+            import.meta.env.VITE_EMAILJS_SERVICE_ID,
+            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+            form.current,
+            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        ).then((result) => {
+            console.log('Owl dispatched successfully:', result.text);
+            // Animation continues via timeouts below
+        }, (error) => {
+            console.log('Owl got lost:', error.text);
+            alert("The owl got lost in the storm! (Email failed to send). Please try again.");
+            setFormStatus('idle'); // Reset if failed
+        });
+
+        // Animation Timings
         setTimeout(() => {
+            // Removed buggy check: if (formStatus === 'idle') return; 
             setFormStatus('grabbed'); // Owl is on the scroll
 
             setTimeout(() => {
@@ -94,14 +111,14 @@ const Contact = () => {
                         >
                             <h2 className={styles.title}>Owl Post</h2>
                             {/* ... form inputs ... */}
-                            <form onSubmit={handleSubmit}>
+                            <form ref={form} onSubmit={handleSubmit}>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Name</label>
-                                    <input type="text" required className={styles.input} placeholder="Harry Potter" disabled={formStatus !== 'idle'} />
+                                    <input type="text" name="name" required className={styles.input} placeholder="Harry Potter" disabled={formStatus !== 'idle'} />
                                 </div>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Message</label>
-                                    <textarea required rows="4" className={styles.textarea} placeholder="I solemnly swear..." disabled={formStatus !== 'idle'} />
+                                    <textarea name="message" required rows="4" className={styles.textarea} placeholder="I solemnly swear..." disabled={formStatus !== 'idle'} />
                                 </div>
                                 <button type="submit" className={styles.submitBtn} disabled={formStatus !== 'idle'}>
                                     Send Owl ✉️
