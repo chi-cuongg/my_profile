@@ -24,7 +24,7 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'Great Hall', href: '#hero' },
-        { name: 'Common Room', href: '#about' }, // Inferred for 'About'
+        { name: 'Marauders Map', href: '#about' }, // Inferred for 'About'
         { name: 'Library', href: '#skills' },
         { name: 'Room of Requirement', href: '#projects' },
         { name: 'Owl Post', href: '#contact' },

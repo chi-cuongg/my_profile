@@ -51,6 +51,7 @@
 }
 
 /* Base "Faint" Map Layer (Always visible but barely) */
+/* Base "Faint" Map Layer (Always visible but barely) */
 .paper::before {
     content: '';
     position: absolute;
@@ -59,10 +60,12 @@
     right: 0;
     bottom: 0;
     pointer-events: none;
-    opacity: 0.08;
-    /* Very faint always visible */
-    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 50 50 10 90' stroke='%233a2a1a' fill='none'/%3E%3Cpath d='M80 20 Q 120 10 150 50' stroke='%233a2a1a' fill='none'/%3E%3Cpath d='M20 150 L 180 150' stroke='%233a2a1a' stroke-dasharray='5,5' fill='none'/%3E%3Ccircle cx='100' cy='100' r='80' stroke='%233a2a1a' fill='none' opacity='0.5'/%3E%3C/svg%3E");
-    background-size: 400px 400px;
+    opacity: 0.15;
+    /* Slightly more visible to show off the texture */
+    background-image: url("/marauders-map-full.jpg");
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: multiply;
 }
 
 /* Magic "Reveal" Layer (Only visible under spotlight) */
@@ -75,35 +78,53 @@
     bottom: 0;
     pointer-events: none;
     z-index: 1;
-    /* Above text? No, below text but above BG. Actually text is z-index 0. Let's make text z-index 2. */
-    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 50 50 10 90' stroke='%235a3a2a' stroke-width='2' fill='none'/%3E%3Cpath d='M80 20 Q 120 10 150 50' stroke='%235a3a2a' stroke-width='2' fill='none'/%3E%3Crect x='40' y='60' width='30' height='30' stroke='%235a3a2a' fill='none'/%3E%3Cpath d='M20 150 L 180 150' stroke='%235a3a2a' stroke-width='2' stroke-dasharray='10,5' fill='none'/%3E%3Ccircle cx='100' cy='100' r='80' stroke='%235a3a2a' stroke-width='1' fill='none'/%3E%3Ctext x='50' y='120' font-family='serif' font-size='12' fill='%235a3a2a'%3EHogwarts%3C/text%3E%3C/svg%3E");
-    background-size: 400px 400px;
-    opacity: 0.8;
+    background-image: url("/marauders-map-full.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+    /* Fully opaque map */
 
     /* THE MAGIC MASK */
-    -webkit-mask-image: radial-gradient(circle 150px at var(--x) var(--y), black 20%, transparent 100%);
-    mask-image: radial-gradient(circle 150px at var(--x) var(--y), black 20%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle 200px at var(--x) var(--y), black 20%, transparent 100%);
+    mask-image: radial-gradient(circle 200px at var(--x) var(--y), black 20%, transparent 100%);
+
+    filter: sepia(0.2) contrast(1.2);
+    /* Enhance the revealed map */
 }
 
 .content {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 50px;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 80px;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    width: 90%;
+    max-width: 1400px;
+    /* Much wider reading area */
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2;
+    /* Ensure content floats above map details */
 }
 
 .text {
     color: #2a1a0a;
-    /* Darkest ink */
+    background-color: rgba(235, 222, 195, 0.85);
+    /* Parchment overlay */
+    padding: 2.5rem;
+    border-radius: 3px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /* Lift it off the map */
+    backdrop-filter: blur(1px);
+    /* Soften the map lines behind text */
+
     font-family: 'Crimson Text', serif;
-    font-size: 1.35rem;
-    /* Increased size/weight for legibility on dark bg */
+    font-size: 1.45rem;
+    /* Larger for easy reading */
     font-weight: 600;
-    /* Semi-bold to stand out */
-    line-height: 1.7;
-    text-shadow: 0 0 1px rgba(255, 230, 200, 0.2);
-    /* Subtle highlight for depth */
+    line-height: 1.8;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .text p {

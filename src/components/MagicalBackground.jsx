@@ -4,9 +4,9 @@ import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'fra
 const MagicalBackground = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [fireflies, setFireflies] = useState([]);
-    const [floatingSpells, setFloatingSpells] = useState([]);
+    // const [floatingSpells, setFloatingSpells] = useState([]); // REMOVED
     const [shootingStars, setShootingStars] = useState([]);
-    const SPELLS = ["Lumos", "Accio", "Alohomora", "Wingardium Leviosa", "Expecto Patronum", "Revelio"];
+    // const SPELLS = ["Lumos", "Accio", "Alohomora", "Wingardium Leviosa", "Expecto Patronum", "Revelio"]; // REMOVED
 
     const { scrollY } = useScroll();
 
@@ -42,24 +42,6 @@ const MagicalBackground = () => {
         }));
         setFireflies(initialFireflies);
 
-        // Spell Spawner
-        const spellInterval = setInterval(() => {
-            if (Math.random() > 0.6) {
-                const spell = {
-                    id: Date.now(),
-                    text: SPELLS[Math.floor(Math.random() * SPELLS.length)],
-                    x: Math.random() * 80 + 10,
-                    y: Math.random() * 80 + 10,
-                    scale: Math.random() * 0.5 + 0.8
-                };
-                setFloatingSpells(prev => [...prev.slice(-4), spell]);
-
-                setTimeout(() => {
-                    setFloatingSpells(prev => prev.filter(s => s.id !== spell.id));
-                }, 4000);
-            }
-        }, 2500);
-
         // Shooting Star Spawner
         const shootingStarInterval = setInterval(() => {
             if (Math.random() > 0.5) { // 50% chance every 2.5s -> Frequent enough
@@ -79,7 +61,7 @@ const MagicalBackground = () => {
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-            clearInterval(spellInterval);
+            // clearInterval(spellInterval);
             clearInterval(shootingStarInterval);
         };
     }, [mouseX, mouseY]);
@@ -224,32 +206,10 @@ const MagicalBackground = () => {
             ))}
 
             {/* --- Floating Spells --- */}
-            <AnimatePresence>
-                {floatingSpells.map(spell => (
-                    <motion.div
-                        key={spell.id}
-                        initial={{ opacity: 0, scale: 0.5, y: 20, filter: 'blur(4px)' }}
-                        animate={{ opacity: 0.7, scale: spell.scale, y: -50, filter: 'blur(0px)' }}
-                        exit={{ opacity: 0, scale: 1.1, y: -100, filter: 'blur(8px)' }}
-                        transition={{ duration: 3.5, ease: "easeOut" }}
-                        style={{
-                            position: 'absolute',
-                            left: `${spell.x}%`,
-                            top: `${spell.y}%`,
-                            fontFamily: 'Cinzel, serif',
-                            fontSize: '1.8rem',
-                            color: 'rgba(236, 185, 57, 0.6)',
-                            textShadow: '0 0 15px rgba(236, 185, 57, 0.5)',
-                            fontStyle: 'italic',
-                            fontWeight: 'bold',
-                            zIndex: 2,
-                            pointerEvents: "none"
-                        }}
-                    >
-                        {spell.text}
-                    </motion.div>
-                ))}
-            </AnimatePresence>
+            {/* --- Floating Spells REMOVED --- */}
+            {/* <AnimatePresence>
+                {floatingSpells.map(spell => ( ... ))}
+            </AnimatePresence> */}
 
             {/* --- Visible Mist Layers (Enhanced) --- */}
             <motion.div

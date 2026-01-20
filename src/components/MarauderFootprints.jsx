@@ -28,6 +28,8 @@ const Footprint = ({ x, y, rotation, delay, side }) => {
 };
 
 const MarauderFootprints = () => {
+    const [resetKey, setResetKey] = useState(0);
+
     // Walking Logic: Left/Right sequence
     const steps = [
         { side: 'left', x: '5%', y: '10%', r: 150 },
@@ -56,8 +58,21 @@ const MarauderFootprints = () => {
         { side: 'right', x: '70%', y: '87%', r: 130 },
     ];
 
+    // Total Duration Calculation:
+    // Last step delay: 17 * 1.0s = 17s
+    // Animation duration: 3.5s
+    // Fade out completes at: 17s + 3.5s = 20.5s
+    // Wait time: 3s
+    // Total Cycle: 23.5s = 23500ms
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setResetKey(prev => prev + 1);
+        }, 23500);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+        <div key={resetKey} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
             {steps.map((step, index) => (
                 <Footprint
                     key={index}
