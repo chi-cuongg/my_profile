@@ -1,0 +1,30 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--color-bg-primary);
+    text-align: center;
+}
+
+.socials {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.socials a {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.socials a:hover {
+    color: var(--color-accent);
+}
+
+.copy {
+    color: var(--color-text-secondary);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+}

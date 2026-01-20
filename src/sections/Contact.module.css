@@ -1,0 +1,29 @@
+.contact {
+    background-color: var(--color-bg-primary);
+    text-align: center;
+    padding-bottom: 100px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.overline {
+    color: var(--color-accent);
+    font-family: 'Fira Code', monospace;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: clamp(40px, 5vw, 60px);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.description {
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
