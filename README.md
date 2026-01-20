@@ -1,16 +1,115 @@
-# React + Vite
+# 🧙‍♂️ Dev Potter – Personal Profile Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> *“Magic is not just spells and potions, it’s also code.”* ✨
 
-Currently, two official plugins are available:
+**Dev Potter** là website portfolio cá nhân được xây dựng theo phong cách **Harry Potter**, nơi mình giới thiệu bản thân, các dự án đã thực hiện và cách để liên hệ, tất cả trong một thế giới phép thuật trên nền web.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Giới thiệu
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Xin chào, mình là **Đào Chí Cường** 👋
+Một sinh viên ngành **Software Engineering**, đam mê lập trình và xây dựng những sản phẩm web sáng tạo, hữu ích và có tính thẩm mỹ cao.
 
-## Expanding the ESLint configuration
+Dự án này được lấy cảm hứng từ thế giới **Harry Potter**, kết hợp giữa:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* UI/UX mang màu sắc huyền bí 🪄
+* Hiệu ứng ánh sáng, animation và không gian phép thuật
+* Công nghệ web hiện đại
+
+---
+
+## 🏰 Các khu vực chính trong website
+
+* **Great Hall** – Trang giới thiệu (Hero section)
+* **Marauder’s Map** – Điều hướng giữa các khu vực
+* **Library** – Giới thiệu dự án & kỹ năng
+* **Room of Requirement** – Portfolio / Projects
+* **Owl Post** – Khu vực liên hệ (Contact)
+
+---
+
+## 🛠️ Công nghệ sử dụng
+
+* ⚛️ **React**
+* ⚡ **Vite**
+* 🎨 **CSS / Animation**
+* 🧩 **ESLint**
+* 🌙 Dark theme phong cách fantasy
+
+---
+
+## 📂 Cấu trúc thư mục
+
+```bash
+my_profile/
+├── public/          # Static assets
+├── src/             #_sheet: React source code
+│   ├── components/
+│   ├── pages/
+│   ├── assets/
+│   └── main.jsx
+├── index.html
+├── vite.config.js
+├── package.json
+└── README.md
+```
+
+---
+
+## 🚀 Cách chạy dự án
+
+### 1️⃣ Cài đặt dependencies
+
+```bash
+npm install
+```
+
+### 2️⃣ Chạy môi trường development
+
+```bash
+npm run dev
+```
+
+Sau đó mở trình duyệt tại:
+👉 `http://localhost:5173`
+
+---
+
+## 🧪 Môi trường biến (`.env`)
+
+Dự án sử dụng **Vite**, vì vậy các biến môi trường cần có tiền tố:
+
+```env
+VITE_EXAMPLE_KEY=your_value_here
+```
+
+> ⚠️ File `.env` đã được ignore trong `.gitignore`
+
+---
+
+## 📸 Demo giao diện
+
+* Hero section với hiệu ứng ánh sáng phép thuật
+* Project cards phong cách “thư viện phép thuật”
+* Owl Post dễ thương cho phần liên hệ 🦉
+
+---
+
+## 📬 Liên hệ
+
+Nếu bạn muốn kết nối, hợp tác hoặc chỉ đơn giản là gửi một “cú” 🦉:
+
+* GitHub: **chi-cuongg**
+* Email: cuong16032005@gmail.com
+
+---
+
+## 📜 Giấy phép
+
+Dự án được xây dựng cho mục đích **học tập & cá nhân**.
+Tự do tham khảo, chỉnh sửa và phát triển thêm 🌱
+
+---
+
+✨ *Mischief Managed!* ✨
