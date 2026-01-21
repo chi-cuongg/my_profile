@@ -6,6 +6,17 @@
 
 ---
 
+## 📸 Demo giao diện
+
+demo: https://chi-cuongg.github.io/my_profile/
+
+* Hero section với hiệu ứng ánh sáng phép thuật
+* Project cards phong cách “thư viện phép thuật”
+* Owl Post dễ thương cho phần liên hệ 🦉
+
+
+---
+
 ## ✨ Giới thiệu
 
 Xin chào, mình là **Đào Chí Cường** 👋
@@ -85,14 +96,6 @@ VITE_EXAMPLE_KEY=your_value_here
 ```
 
 > ⚠️ File `.env` đã được ignore trong `.gitignore`
-
----
-
-## 📸 Demo giao diện
-
-* Hero section với hiệu ứng ánh sáng phép thuật
-* Project cards phong cách “thư viện phép thuật”
-* Owl Post dễ thương cho phần liên hệ 🦉
 
 ---
 
