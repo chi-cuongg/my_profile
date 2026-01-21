@@ -1,3 +1,6 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
 :root {
   /* Harry Potter Fonts */
   --font-title: 'Cinzel', serif;
@@ -54,8 +57,6 @@
   --transition-speed: 0.3s;
 }
 
-/* Import Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 *,
 *::before,
