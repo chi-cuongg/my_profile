@@ -1,26 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const GoldenSnitch = () => {
     const [isCaught, setIsCaught] = useState(false);
-    const [position, setPosition] = useState({ x: 200, y: 150 });
+    const [flyPosition, setFlyPosition] = useState({ x: 200, y: 150 });
     const constraintsRef = useRef(null);
 
     // Random flight path when not caught
     const flyAnimation = {
         x: [
-            100 + Math.random() * 300,
-            300 + Math.random() * 400,
-            100 + Math.random() * 500,
-            400 + Math.random() * 300,
-            100 + Math.random() * 300
+            flyPosition.x,
+            flyPosition.x + 200 + Math.random() * 200,
+            flyPosition.x + 100 + Math.random() * 300,
+            flyPosition.x + 300 + Math.random() * 200,
+            flyPosition.x
         ],
         y: [
-            100 + Math.random() * 150,
-            200 + Math.random() * 200,
-            150 + Math.random() * 150,
-            250 + Math.random() * 200,
-            100 + Math.random() * 150
+            flyPosition.y,
+            flyPosition.y + 100 + Math.random() * 100,
+            flyPosition.y + 50 + Math.random() * 150,
+            flyPosition.y + 150 + Math.random() * 100,
+            flyPosition.y
         ],
         transition: {
             duration: 10,
@@ -28,6 +28,12 @@ const GoldenSnitch = () => {
             repeatType: "reverse",
             ease: "easeInOut"
         }
+    };
+
+    const handleDragEnd = (event, info) => {
+        // Save the release position so the snitch flies around from here
+        setFlyPosition({ x: info.point.x - 12, y: info.point.y - 12 });
+        setIsCaught(false);
     };
 
     return (
@@ -56,24 +62,14 @@ const GoldenSnitch = () => {
                     pointerEvents: 'auto',
                     touchAction: 'none'
                 }}
-                animate={isCaught ? { x: position.x, y: position.y } : flyAnimation}
-                drag={isCaught}
+                initial={{ x: flyPosition.x, y: flyPosition.y }}
+                animate={isCaught ? undefined : flyAnimation}
+                drag
                 dragConstraints={constraintsRef}
-                dragElastic={0.1}
+                dragElastic={0}
                 dragMomentum={false}
-                onDrag={(event, info) => {
-                    setPosition({ x: info.point.x - 12, y: info.point.y - 12 });
-                }}
-                onPointerDown={(e) => {
-                    e.stopPropagation();
-                    setIsCaught(true);
-                }}
-                onPointerUp={() => {
-                    setIsCaught(false);
-                }}
-                onDragEnd={() => {
-                    setIsCaught(false);
-                }}
+                onDragStart={() => setIsCaught(true)}
+                onDragEnd={handleDragEnd}
                 whileDrag={{ scale: 1.2 }}
             >
                 <div style={{ position: 'relative', width: '25px', height: '25px' }}>
@@ -143,7 +139,7 @@ const GoldenSnitch = () => {
                             pointerEvents: 'none'
                         }}
                     >
-                        Drag me!
+                        Success!
                     </motion.div>
                 )}
 
