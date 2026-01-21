@@ -1,9 +1,11 @@
 /* Import Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
   /* Harry Potter Fonts */
   --font-title: 'Cinzel', serif;
+  --font-title-vi: 'Be Vietnam Pro', sans-serif;
+  /* Vietnamese support */
   --font-body: 'Crimson Text', serif;
 
   font-family: var(--font-body);
