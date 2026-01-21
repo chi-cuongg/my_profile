@@ -1,70 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MagicalBackground = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [fireflies, setFireflies] = useState([]);
-    // const [floatingSpells, setFloatingSpells] = useState([]); // REMOVED
     const [shootingStars, setShootingStars] = useState([]);
-    // const SPELLS = ["Lumos", "Accio", "Alohomora", "Wingardium Leviosa", "Expecto Patronum", "Revelio"]; // REMOVED
-
-    const { scrollY } = useScroll();
-
-    // Parallax Transforms
-    const y1 = useTransform(scrollY, [0, 1000], [0, 200]);   // Deep stars (slow)
-    const y2 = useTransform(scrollY, [0, 1000], [0, 400]);   // Mid stars
-    const y3 = useTransform(scrollY, [0, 1000], [0, 600]);   // Near stars (fast)
-
-    // Smooth mouse movement for parallax
-    const mouseX = useSpring(0, { stiffness: 50, damping: 20 });
-    const mouseY = useSpring(0, { stiffness: 50, damping: 20 });
 
     useEffect(() => {
-        const handleMouseMove = (e) => {
-            const { clientX, clientY } = e;
-            const targetX = (clientX - window.innerWidth / 2) * 0.05;
-            const targetY = (clientY - window.innerHeight / 2) * 0.05;
-
-            mouseX.set(targetX);
-            mouseY.set(targetY);
-            setMousePosition({ x: clientX, y: clientY });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-
-        // Init Fireflies
-        const initialFireflies = Array.from({ length: 20 }).map((_, i) => ({
+        // Init Fireflies - reduced from 20 to 8
+        const initialFireflies = Array.from({ length: 8 }).map((_, i) => ({
             id: i,
             x: Math.random() * 100,
             y: Math.random() * 100,
             size: Math.random() * 3 + 1,
-            duration: Math.random() * 10 + 10,
+            duration: Math.random() * 10 + 15,
             delay: Math.random() * 5
         }));
         setFireflies(initialFireflies);
 
-        // Shooting Star Spawner
+        // Shooting Star Spawner - reduced frequency
         const shootingStarInterval = setInterval(() => {
-            if (Math.random() > 0.5) { // 50% chance every 2.5s -> Frequent enough
+            if (Math.random() > 0.7) { // 30% chance every 4s
                 const id = Date.now();
                 const star = {
                     id,
                     x: Math.random() * 100,
-                    y: Math.random() * 60, // Top 60%
+                    y: Math.random() * 40,
                     scale: Math.random() * 0.5 + 0.5
                 };
-                setShootingStars(prev => [...prev, star]);
+                setShootingStars(prev => [...prev.slice(-2), star]); // Max 3 at a time
                 setTimeout(() => {
                     setShootingStars(prev => prev.filter(s => s.id !== id));
                 }, 1500);
             }
-        }, 2000);
+        }, 4000);
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            // clearInterval(spellInterval);
             clearInterval(shootingStarInterval);
         };
-    }, [mouseX, mouseY]);
+    }, []);
 
     return (
         <div style={{
@@ -79,35 +52,19 @@ const MagicalBackground = () => {
             background: 'linear-gradient(to bottom, #050505, #0a0a0a)'
         }}>
 
-            {/* --- Deep Stars Layer (Auto Drift) --- */}
-            <motion.div
-                animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
-                transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+            {/* Single Stars Layer - CSS animation only, no JS */}
+            <div
                 style={{
-                    position: 'absolute', inset: -50,
+                    position: 'absolute',
+                    inset: 0,
                     backgroundImage: 'radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.4) 1px, transparent 0)',
-                    backgroundSize: '80px 80px',
-                    y: y1,
-                    x: mouseX,
-                    opacity: 0.4
+                    backgroundSize: '100px 100px',
+                    opacity: 0.5,
+                    animation: 'starDrift 60s linear infinite'
                 }}
             />
 
-            {/* --- Mid Stars Layer (Auto Drift) --- */}
-            <motion.div
-                animate={{ backgroundPosition: ["0% 0%", "-50% 100%"] }}
-                transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
-                style={{
-                    position: 'absolute', inset: -50,
-                    backgroundImage: 'radial-gradient(1.5px 1.5px at 30% 70%, rgba(255,255,255,0.5) 1px, transparent 0)',
-                    backgroundSize: '120px 120px',
-                    y: y2,
-                    x: useTransform(mouseX, v => v * 1.5),
-                    opacity: 0.6
-                }}
-            />
-
-            {/* --- Shooting Stars --- */}
+            {/* Shooting Stars */}
             <AnimatePresence>
                 {shootingStars.map(star => (
                     <motion.div
@@ -121,16 +78,15 @@ const MagicalBackground = () => {
                             height: "2px",
                             background: "white",
                             boxShadow: "0 0 10px 2px rgba(255, 255, 255, 0.8)",
-                            zIndex: 10 // Ensure it's above background/mist
+                            zIndex: 10
                         }}
                     >
-                        {/* Tail */}
                         <div style={{
                             position: "absolute",
                             top: "50%",
                             left: "50%",
-                            transform: "translate(-50%, -50%) rotate(135deg) translateX(30px)", // 135deg points South-West
-                            width: "80px", // Longer tail
+                            transform: "translate(-50%, -50%) rotate(135deg) translateX(30px)",
+                            width: "60px",
                             height: "2px",
                             background: "linear-gradient(90deg, transparent, white)"
                         }} />
@@ -138,52 +94,30 @@ const MagicalBackground = () => {
                 ))}
             </AnimatePresence>
 
-
-            {/* --- Ambient Golden Mist / Glow (Enhanced) --- */}
-            <motion.div
-                animate={{
-                    opacity: [0.2, 0.4, 0.2],
-                    scale: [1, 1.2, 1],
-                }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            {/* Single Ambient Glow */}
+            <div
                 style={{
                     position: 'absolute',
                     top: '20%',
                     left: '10%',
                     width: '60vw',
                     height: '60vw',
-                    background: 'radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%)',
+                    background: 'radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%)',
                     filter: 'blur(60px)',
-                    zIndex: 0
-                }}
-            />
-            <motion.div
-                animate={{
-                    opacity: [0.2, 0.3, 0.2],
-                    scale: [1.2, 1, 1.2],
-                }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                style={{
-                    position: 'absolute',
-                    bottom: '10%',
-                    right: '10%',
-                    width: '70vw',
-                    height: '70vw',
-                    background: 'radial-gradient(circle, rgba(16, 26, 64, 0.25) 0%, transparent 70%)',
-                    filter: 'blur(70px)',
-                    zIndex: 0
+                    zIndex: 0,
+                    animation: 'glowPulse 8s ease-in-out infinite'
                 }}
             />
 
-            {/* --- Fireflies --- */}
+            {/* Fireflies - reduced count */}
             {fireflies.map(fly => (
                 <motion.div
                     key={fly.id}
                     initial={{ opacity: 0 }}
                     animate={{
-                        x: [0, (Math.random() - 0.5) * 150, 0],
-                        y: [0, (Math.random() - 0.5) * 150, 0],
-                        opacity: [0, 0.8, 0]
+                        x: [0, (Math.random() - 0.5) * 100, 0],
+                        y: [0, (Math.random() - 0.5) * 100, 0],
+                        opacity: [0, 0.6, 0]
                     }}
                     transition={{
                         duration: fly.duration,
@@ -199,99 +133,23 @@ const MagicalBackground = () => {
                         height: fly.size,
                         borderRadius: '50%',
                         backgroundColor: '#FFD700',
-                        boxShadow: '0 0 8px 2px rgba(255, 215, 0, 0.4)',
+                        boxShadow: '0 0 6px 1px rgba(255, 215, 0, 0.3)',
                         zIndex: 1
                     }}
                 />
             ))}
 
-            {/* --- Floating Spells --- */}
-            {/* --- Floating Spells REMOVED --- */}
-            {/* <AnimatePresence>
-                {floatingSpells.map(spell => ( ... ))}
-            </AnimatePresence> */}
-
-            {/* --- Visible Mist Layers (Enhanced) --- */}
-            <motion.div
-                animate={{
-                    x: ["-25%", "25%"],
-                    opacity: [0.3, 0.6, 0.3], // Higher opacity
-                }}
-                transition={{
-                    duration: 25,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                }}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '200%',
-                    height: '100%',
-                    background: 'radial-gradient(ellipse at center, rgba(160, 160, 180, 0.08) 0%, transparent 70%)', // Distinct color
-                    filter: 'blur(80px)',
-                    zIndex: 0,
-                    pointerEvents: "none"
-                }}
-            />
-            <motion.div
-                animate={{
-                    x: ["20%", "-20%"],
-                    opacity: [0.2, 0.5, 0.2],
-                }}
-                transition={{
-                    duration: 35,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                }}
-                style={{
-                    position: 'absolute',
-                    bottom: "-20%",
-                    right: 0,
-                    width: '200%',
-                    height: '100%',
-                    background: 'radial-gradient(ellipse at center, rgba(100, 120, 255, 0.05) 0%, transparent 70%)', // Blue-ish mist
-                    filter: 'blur(90px)',
-                    zIndex: 0,
-                    pointerEvents: "none"
-                }}
-            />
-            {/* Added 3rd Mist Layer for density */}
-            <motion.div
-                animate={{
-                    y: ["-10%", "10%"],
-                    opacity: [0, 0.3, 0],
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                }}
-                style={{
-                    position: 'absolute',
-                    top: '30%',
-                    left: '30%',
-                    width: '100%',
-                    height: '80%',
-                    background: 'radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 60%)',
-                    filter: 'blur(60px)',
-                    zIndex: 0,
-                    pointerEvents: "none"
-                }}
-            />
-
-            {/* Fog Overlay (Texture) */}
-            <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'url("https://raw.githubusercontent.com/daniel-bros/react-parallax-tilt/master/demo/public/img/noise.png")',
-                opacity: 0.07, // Slightly bumped
-                pointerEvents: 'none',
-                zIndex: 3
-            }} />
+            {/* CSS Keyframes */}
+            <style>{`
+                @keyframes starDrift {
+                    from { background-position: 0% 0%; }
+                    to { background-position: 100% 100%; }
+                }
+                @keyframes glowPulse {
+                    0%, 100% { opacity: 0.3; transform: scale(1); }
+                    50% { opacity: 0.5; transform: scale(1.1); }
+                }
+            `}</style>
         </div>
     );
 };
