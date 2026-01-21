@@ -1,26 +1,29 @@
 import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 
 const GoldenSnitch = () => {
     const [isCaught, setIsCaught] = useState(false);
-    const [flyPosition, setFlyPosition] = useState({ x: 200, y: 150 });
     const constraintsRef = useRef(null);
+
+    // Use motion values for smooth position tracking
+    const x = useMotionValue(200);
+    const y = useMotionValue(150);
 
     // Random flight path when not caught
     const flyAnimation = {
         x: [
-            flyPosition.x,
-            flyPosition.x + 200 + Math.random() * 200,
-            flyPosition.x + 100 + Math.random() * 300,
-            flyPosition.x + 300 + Math.random() * 200,
-            flyPosition.x
+            x.get(),
+            x.get() + 150 + Math.random() * 200,
+            x.get() + 80 + Math.random() * 250,
+            x.get() + 200 + Math.random() * 150,
+            x.get()
         ],
         y: [
-            flyPosition.y,
-            flyPosition.y + 100 + Math.random() * 100,
-            flyPosition.y + 50 + Math.random() * 150,
-            flyPosition.y + 150 + Math.random() * 100,
-            flyPosition.y
+            y.get(),
+            y.get() + 80 + Math.random() * 100,
+            y.get() + 40 + Math.random() * 120,
+            y.get() + 100 + Math.random() * 80,
+            y.get()
         ],
         transition: {
             duration: 10,
@@ -28,12 +31,6 @@ const GoldenSnitch = () => {
             repeatType: "reverse",
             ease: "easeInOut"
         }
-    };
-
-    const handleDragEnd = (event, info) => {
-        // Save the release position so the snitch flies around from here
-        setFlyPosition({ x: info.point.x - 12, y: info.point.y - 12 });
-        setIsCaught(false);
     };
 
     return (
@@ -57,19 +54,21 @@ const GoldenSnitch = () => {
                     position: 'fixed',
                     left: 0,
                     top: 0,
+                    x: x,
+                    y: y,
                     zIndex: 9998,
                     cursor: isCaught ? 'grabbing' : 'grab',
                     pointerEvents: 'auto',
                     touchAction: 'none'
                 }}
-                initial={{ x: flyPosition.x, y: flyPosition.y }}
                 animate={isCaught ? undefined : flyAnimation}
                 drag
                 dragConstraints={constraintsRef}
                 dragElastic={0}
                 dragMomentum={false}
+                dragTransition={{ power: 0, timeConstant: 0 }}
                 onDragStart={() => setIsCaught(true)}
-                onDragEnd={handleDragEnd}
+                onDragEnd={() => setIsCaught(false)}
                 whileDrag={{ scale: 1.2 }}
             >
                 <div style={{ position: 'relative', width: '25px', height: '25px' }}>
