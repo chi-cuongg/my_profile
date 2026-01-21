@@ -48,7 +48,7 @@
     color: var(--color-text-primary);
     margin: 0;
     line-height: 1.1;
-    font-family: var(--font-title-vi), var(--font-title);
+    font-family: 'Be Vietnam Pro', 'Cinzel', sans-serif;
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     background: linear-gradient(to bottom, var(--color-parchment) 0%, var(--color-gold) 100%);
     -webkit-background-clip: text;
@@ -56,9 +56,6 @@
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 2px var(--color-gold-dim));
 }
-
-"
-
 
 .tagline {
     font-size: clamp(30px, 6vw, 60px);
